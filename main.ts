@@ -26,14 +26,17 @@ if (text!.trim().length === 0) {
   fail("entry.txt is empty or whitespace-only");
 }
 
+// The competition wants exactly two sentences in a single entry, at most
+// 400 characters long. Both limits are checked below before anything is
+// written, so an invalid entry fails loudly instead of being submitted.
 const charCount = [...text!].length;
 if (charCount < 1 || charCount > 400) {
-  fail(`entry.txt must be 1-400 characters, got ${charCount}`);
+  fail(`entry.txt must be 1-400 characters long (counted by code point), got ${charCount}`);
 }
 
 const sentenceCount = (text!.match(/[.!?]/g) ?? []).length;
 if (sentenceCount !== 2) {
-  fail(`entry.txt must contain exactly 2 sentences, got ${sentenceCount}`);
+  fail(`entry.txt must contain exactly 2 sentences (counted by . ! ? marks), got ${sentenceCount}`);
 }
 
 fs.mkdirSync(outputDir!, { recursive: true });
